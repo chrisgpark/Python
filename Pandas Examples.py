@@ -1,3 +1,13 @@
+# Import DF from xlsx
+
+import pandas as pd
+
+# Open the workbook and load a specific range into a DataFrame
+df = pd.read_excel('your_file.xlsx', sheet_name='Sheet1', usecols='A:C', skiprows=range(1, 10), nrows=20)
+
+# Print the DataFrame
+print(df)
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -363,6 +373,7 @@ plt.show()
 # Correlation matrix heatmap
 sns.heatmap(df.corr())
 plt.show()
+
 
 
 
