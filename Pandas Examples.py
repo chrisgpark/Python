@@ -299,5 +299,72 @@ print(df2['Email'].str.upper())
 # In[ ]:
 
 
+# Additional Code 
+
+
+
+import pandas as pd
+
+# Read data from CSV file
+df = pd.read_csv('filename.csv')
+
+
+# Show the first 5 rows of the data
+print(df.head())
+
+# Show the last 5 rows of the data
+print(df.tail())
+
+# Show the shape of the data (rows, columns)
+print(df.shape)
+
+# Show general information about the data
+print(df.info())
+
+# Show descriptive statistics of the data
+print(df.describe())
+
+
+# Drop missing values
+df = df.dropna()
+
+# Fill missing values with a specified value (e.g., 0)
+df = df.fillna(0)
+
+# Rename columns
+df = df.rename(columns={'old_name': 'new_name'})
+
+# Convert a column to a different data type
+df['column_name'] = df['column_name'].astype('int')
+
+
+# Filter rows where 'column_name' is greater than 50
+filtered_df = df[df['column_name'] > 50]
+
+
+# Group by 'column_name' and calculate mean of 'other_column_name'
+grouped_df = df.groupby('column_name')['other_column_name'].mean()
+
+# Pivot tables are also quite easy
+pivot_df = df.pivot_table(index='column_name', columns='other_column_name', values='third_column_name', aggfunc='sum')
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Histogram
+df['column_name'].hist()
+plt.show()
+
+# Boxplot
+sns.boxplot(x='column_name', y='other_column_name', data=df)
+plt.show()
+
+# Correlation matrix heatmap
+sns.heatmap(df.corr())
+plt.show()
+
+
+
 
 
