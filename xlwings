@@ -1,0 +1,64 @@
+# running for loop
+
+import xlwings as xw
+
+wb = xw.Book()
+sheet = wb.sheets['Sheet1']
+
+# Using a loop to write data
+for i in range(10):
+    sheet.range(f'A{i+1}').value = i**2
+
+# first and last rows and columns
+import xlwings as xw
+
+wb = xw.Book('example.xlsx') # Assuming 'example.xlsx' is your file
+sheet = wb.sheets['Sheet1']
+
+# Get last non-empty row in column A
+last_row = sheet.range('A' + str(sheet.cells.last_cell.row)).end('up').row
+
+# Get last non-empty column in row 1
+last_column = sheet.range(chr(sheet.cells.last_cell.column + 64) + '1').end('left').get_address(False, False)[0]
+
+print(f"Last Row: {last_row}")
+print(f"Last Column: {last_column}")
+
+
+# Pivot Tables
+
+import xlwings as xw
+
+wb = xw.Book('example.xlsx') # Assuming 'example.xlsx' is your file
+sheet = wb.sheets['Sheet1']
+
+# Assuming that your data is in 'Sheet1' from A1 to B6
+data_range = sheet.range('A1:B6')
+
+# Add a new worksheet for the pivot table
+pivot_sheet = wb.sheets.add('PivotSheet')
+
+# Access the Excel VBA object model to create the PivotTable
+wb.api.ActiveWorkbook.PivotTableWizard(
+    SourceType=5,  # xlDatabase
+    SourceData=data_range.api,
+    TableDestination=pivot_sheet.api.Cells(1,1),
+    TableName='PivotTable1',
+    RowGrand=True,
+    ColumnGrand=True,
+    HasAutoFormat=True,
+    ReadData=False,
+    DefaultVersion=6  # xlPivotTableVersion15 (Excel 2013)
+)
+
+# Add 'Column1' as a row field
+wb.api.ActiveSheet.PivotTables('PivotTable1').PivotFields('Column1').Orientation = 1  # xlRowField
+
+# Add 'Column2' as a data field
+wb.api.ActiveSheet.PivotTables('PivotTable1').PivotFields('Column2').Orientation = 4  # xlDataField
+
+# Add 'Column3' as a page field (filter)
+wb.api.ActiveSheet.PivotTables('PivotTable1').PivotFields('Column3').Orientation = 3  # xlPageField
+
+# Suppose you want to filter 'Column3' to show only rows where 'Column3' is 'Value1'
+wb.api.ActiveSheet.PivotTables('PivotTable1').PivotFields('Column3').CurrentPage = 'Value1'
